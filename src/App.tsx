@@ -19,7 +19,7 @@ interface AppProps {
 class App extends React.Component<AppProps> /* (firstRequestData:any)  =>  */ {
   state = {
     url: "./userHoppiesData.json",
-    noData: false,
+    noData: false
   };
 
   // var url : string = "./userHoppiesData.json"; const [users,     setUsers] =
@@ -37,22 +37,12 @@ class App extends React.Component<AppProps> /* (firstRequestData:any)  =>  */ {
           "Did Update_=> From Store: ",
           this.props.reducer.users.users.length
         );
-        // setUsers(response.data);
-        // props.firstRequestData(response.data);
-        /*     if (this.state.url)
-                    // this.state.noData = false;
-                    this.setState({noData: false});
-                 */
-        // setNoData(false);
       })
       .catch(error => {
         console.log(error);
         this.setState({ noData: true });
       });
-    /*             // eslint-disable-next-line }, []);
-     */
   }
-
   render() {
     return (
       <div>
@@ -73,7 +63,6 @@ class App extends React.Component<AppProps> /* (firstRequestData:any)  =>  */ {
               </div>
             </div>
           </div>
-          // userHoppies.map(userHoppies => {   return <div />; })
         )}
       </div>
     );

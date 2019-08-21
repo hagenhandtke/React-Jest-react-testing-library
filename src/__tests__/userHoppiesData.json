@@ -1,0 +1,40 @@
+{
+    "users": [
+        {
+            "name": "Micha",
+            "hoppys": [
+                {
+                    "passion": "Low",
+                    "start": "1999",
+                    "hoppy": "Playing football"
+                }, {
+                    "passion": "Low",
+                    "start": "2001",
+                    "hoppy": "Playing Ice hockey"
+                }
+            ]
+        }, {
+            "name": "John",
+            "hoppys": [
+                {
+                    "passion": "Very-High",
+                    "start": "2010",
+                    "hoppy": "Playing Ice hockey"
+                }, {
+                    "passion": "Medium",
+                    "start": "2002",
+                    "hoppy": "Playing cricket"
+                }
+            ]
+        }, {
+            "name": "Ben",
+            "hoppys": [
+                {
+                    "passion": "Medium",
+                    "start": "2008",
+                    "hoppy": "Playing cricket"
+                }
+            ]
+        }
+    ]
+}

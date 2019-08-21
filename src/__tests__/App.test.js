@@ -1,38 +1,97 @@
+jest.mock("../app");
 import React from "react";
-import { render, fireEvent, cleanup } from "@testing-library/react";
-import pet, { _breeds, _dogs, ANIMALS } from "@frontendmasters/pet";
-import SearchParams from "../App";
+import { readFileSync } from "fs";
+import path from "path";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import {
+  render,
+  fireEvent,
+  cleanup,
+  waitForElement
+} from "@testing-library/react";
+// import { _users, _hoppies } from "@app/app";
+import configureStore from "../redux/store";
+
+import App from "../App";
+import axios from "axios";
 
 afterEach(cleanup);
 
-test("SearchParams", async () => {
-  const { container, getByTestId, getByText } = render(<SearchParams />);
+function renderWithRedux(ui, { initialState, store = configureStore() } = {}) {
+  return {
+    ...render(<Provider store={store}>{ui}</Provider>),
+    // adding `store` to the returned utilities to allow us
+    // to reference it in our tests (just try to avoid using
+    // this to test implementation details).
+    store
+  };
+}
+jest.mock("axios");
+test("App", async () => {
+  const hoppies = [
+    { name: "Playing football" },
+    { name: "Playing Ice hockey" }
+  ];
+  const usersJson = JSON.parse(
+    readFileSync(path.join(__dirname, "/userHoppiesData.json")).toString()
+  );
+  // console.log(usersJson.users);
 
-//   const animalDropdown = getByTestId("use-dropdown-animal");
-//   expect(animalDropdown.children.length).toEqual(ANIMALS.length + 1);
+  axios.get.mockResolvedValue({ data: usersJson });
+  const { container, getByTestId, getByText } = renderWithRedux(<App />);
 
-//   expect(pet.breeds).toHaveBeenCalled();
-//   const breedDropdown = getByTestId("use-dropdown-breed");
-//   expect(breedDropdown.children.length).toEqual(_breeds.length + 1);
+  //   const animalDropdown = getByTestId("use-dropdown-animal");
+  //   expect(animalDropdown.children.length).toEqual(ANIMALS.length + 1);
 
-//   const searchResults = getByTestId("search-results");
-//   expect(searchResults.textContent).toEqual("No Pets Found");
-//   fireEvent(getByText("Submit"), new MouseEvent("click"));
-//   expect(pet.animals).toHaveBeenCalled();
-//   expect(searchResults.children.length).toEqual(_dogs.length);
+  expect(axios.get).toHaveBeenCalledTimes(1);
+  //   const breedDropdown = getByTestId("use-dropdown-breed");
+  //   expect(breedDropdown.children.length).toEqual(_breeds.length + 1);
 
+  //   const searchResults = getByTestId("search-results");
+  //   expect(searchResults.textContent).toEqual("No Pets Found");
+  //   fireEvent(getByText("Submit"), new MouseEvent("click"));
+  //   expect(pet.animals).toHaveBeenCalled();
+  //   expect(searchResults.children.length).toEqual(_dogs.length);
+  const resolvedSpan = await waitForElement(() => container);
   expect(container.firstChild).toMatchInlineSnapshot(`
-    <div className="contend">
-    <div className="user-grid">
-      <div className="grid-header-text">User Hoppies</div>
-      <div className="grid-header-border" />
-      <div className="user">
-        <UserComponent />
-      </div>
-      <div className="user-property">
-        <UserHoppiesComponent />
+    <div>
+      <div
+        class="contend"
+      >
+        <div
+          class="user-grid"
+        >
+          <div
+            class="grid-header-text"
+          >
+            User Hoppies
+          </div>
+          <div
+            class="grid-header-border"
+          />
+          <div
+            class="user"
+          >
+            <div>
+              <div>
+                Micha
+              </div>
+              <div>
+                John
+              </div>
+              <div>
+                Ben
+              </div>
+            </div>
+          </div>
+          <div
+            class="user-property"
+          >
+            <div />
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-    `);
+  `);
 });
