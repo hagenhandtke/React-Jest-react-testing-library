@@ -27,18 +27,15 @@ function renderWithRedux(ui, { initialState, store = configureStore() } = {}) {
     store
   };
 }
-jest.mock("axios");
+// jest.mock("axios");
 test("App", async () => {
-  const hoppies = [
-    { name: "Playing football" },
-    { name: "Playing Ice hockey" }
-  ];
+  
   const usersJson = JSON.parse(
     readFileSync(path.join(__dirname, "/userHoppiesData.json")).toString()
   );
   // console.log(usersJson.users);
 
-  axios.get.mockResolvedValue({ data: usersJson });
+  // axios.get.mockResolvedValue({ data: usersJson });
   const { container, getByTestId, getByText } = renderWithRedux(<App />);
 
   //   const animalDropdown = getByTestId("use-dropdown-animal");
